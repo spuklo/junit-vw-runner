@@ -1,5 +1,6 @@
 package net.puklo.java.junit;
 
+import org.junit.Ignore;
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.Description;
@@ -19,11 +20,16 @@ public class JUnitVWRunner extends BlockJUnit4ClassRunner {
     protected void runChild(final FrameworkMethod method,
                             final RunNotifier notifier) {
         final Description description = describeChild(method);
-        if (isIgnored(method)) {
+        if (this.isIgnored(method)) {
             notifier.fireTestIgnored(description);
         } else {
-            runVwLeaf(methodBlock(method), description, notifier);
+            runVwLeaf(super.methodBlock(method), description, notifier);
         }
+    }
+
+    @Override
+    protected boolean isIgnored(final FrameworkMethod child) {
+        return child.getAnnotation(Ignore.class) != null;
     }
 
     protected final void runVwLeaf(final Statement statement,
