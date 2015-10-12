@@ -9,7 +9,7 @@ No more tests failing on build server!
 public class SampleUsage {
 
     @Test
-    public void should_pass_only_in_friendly_environment() {
+    public void should_fail_only_in_friendly_environment() {
         assertTrue(1 == 2);
     }
 
